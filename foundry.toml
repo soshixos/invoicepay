@@ -1,0 +1,10 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+# Aevum Testnet's EVM does not support Cancun opcodes (MCOPY). The default
+# solc target emits MCOPY in getInvoice/getInvoices (struct return), which
+# reverts with "invalid opcode: MCOPY" on Aevum. Target Shanghai instead.
+evm_version = "shanghai"
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

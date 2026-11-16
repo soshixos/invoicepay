@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InvoicePay — Stablecoin Invoices on Aevum Testnet</title>
+<meta name="description" content="Create and pay invoices in the test stablecoin tUSD8 on the QDay Aevum Testnet. Aevum Builder Challenge #1 — Invoice Payments track." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230e7490'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif'%3E◈%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="styles.css" />
+<script src="vendor/ethers.umd.min.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">◈</span>
+    <div>
+      <h1>InvoicePay</h1>
+      <p class="subtitle">Stablecoin invoices on Aevum Testnet &middot; tUSD8</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <span id="networkBadge" class="badge">Aevum Testnet &middot; chain 44005</span>
+    <button id="connectBtn" class="btn primary">Connect wallet</button>
+  </div>
+</header>
+
+<main class="container">
+  <div id="deployNotice" class="notice hidden">
+    <strong>Contract not deployed yet.</strong>
+    <span id="deployNoticeText">The InvoicePayments contract has not been deployed to Aevum Testnet yet. This page is in read-only preview mode until the contract address is set in <code>config.js</code>.</span>
+  </div>
+
+  <div id="statusBar" class="statusbar" role="status" aria-live="polite"></div>
+
+  <section class="stats" aria-label="Overview">
+    <div class="stat"><span class="stat-num" id="statTotal">–</span><span class="stat-label">invoices</span></div>
+    <div class="stat"><span class="stat-num" id="statPending">–</span><span class="stat-label">pending</span></div>
+    <div class="stat"><span class="stat-num" id="statPaid">–</span><span class="stat-label">paid</span></div>
+    <div class="stat"><span class="stat-num" id="statVolume">–</span><span class="stat-label">tUSD8 settled</span></div>
+  </section>
+
+  <div class="layout">
+    <section class="card form-card" aria-label="Create an invoice">
+      <h2>Create an invoice</h2>
+      <p class="hint">Bill someone in tUSD8. The payer approves the contract, then pays — the tokens move straight to your wallet.</p>
+      <form id="createForm">
+        <label>
+          <span>Payer address</span>
+          <input id="payerInput" type="text" placeholder="0x… (leave empty for an open invoice anyone can pay)" spellcheck="false" />
+        </label>
+        <label>
+          <span>Amount (tUSD8)</span>
+          <input id="amountInput" type="number" min="0.000001" step="0.000001" placeholder="25.00" required />
+        </label>
+        <label>
+          <span>Due date <em>(optional)</em></span>
+          <input id="dueInput" type="datetime-local" />
+        </label>
+        <label>
+          <span>Memo</span>
+          <input id="memoInput" type="text" maxlength="500" placeholder="e.g. Website redesign — November" required />
+        </label>
+        <button type="submit" id="createBtn" class="btn primary block" disabled>Connect wallet to create</button>
+      </form>
+      <div id="walletInfo" class="wallet-info hidden">
+        <div><span>Your tUSD8</span><strong id="tusdbalance">–</strong></div>
+        <div><span>Your tQDAY (gas)</span><strong id="gasbalance">–</strong></div>
+        <div><span>Your address</span><strong id="walletAddr" class="mono">–</strong></div>
+      </div>
+    </section>
+
+    <section class="card list-card" aria-label="Invoices">
+      <div class="list-head">
+        <h2>Invoices</h2>
+        <button id="refreshBtn" class="btn ghost">↻ Refresh</button>
+      </div>
+      <div id="invoiceList" class="invoice-list">
+        <p class="empty">Loading invoices…</p>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <p>
+      <strong>InvoicePay</strong> — Aevum Builder Challenge #1 &middot; Invoice Payments track.
+      Testnet only: tUSD8 has no monetary value.
+    </p>
+    <p class="mono small">
+      Contract: <a id="contractLink" href="#" target="_blank" rel="noopener">not deployed yet</a>
+      &middot; tUSD8: <a id="tokenLink" href="#" target="_blank" rel="noopener">0x4565…3483</a>
+      &middot; <a href="https://faucet.qday.info" target="_blank" rel="noopener">Get test tokens</a>
+      &middot; <a href="https://qday.io/builder-challenge" target="_blank" rel="noopener">Challenge page</a>
+    </p>
+  </footer>
+</main>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

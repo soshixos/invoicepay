@@ -1,0 +1,11 @@
+# Foundry build artifacts
+out/
+cache/
+broadcast/
+# Testnet deployer key — NEVER commit (kept at ~/workspace/qday/testnet-key.json)
+testnet-key.json
+*.key.json
+# Node (only used for local frontend testing, not part of the repo)
+node_modules/
+# OS / editor
+.DS_Store
