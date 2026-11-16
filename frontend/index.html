@@ -6,10 +6,14 @@
 <title>InvoicePay — Stablecoin Invoices on Aevum Testnet</title>
 <meta name="description" content="Create and pay invoices in the test stablecoin tUSD8 on the QDay Aevum Testnet. Aevum Builder Challenge #1 — Invoice Payments track." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230e7490'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif'%3E◈%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
 <script src="vendor/ethers.umd.min.js"></script>
 </head>
 <body>
+<div class="bg-orbs" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
 <header class="topbar">
   <div class="brand">
     <span class="logo" aria-hidden="true">◈</span>
@@ -25,6 +29,14 @@
 </header>
 
 <main class="container">
+  <section class="hero" aria-label="About">
+    <div>
+      <h2>Invoices that <span class="grad">settle in seconds.</span></h2>
+      <p>Bill anyone in <b>tUSD8</b> on Aevum Testnet. The payer approves the contract, pays, and the tokens move straight to your wallet — no middleman, no waiting days.</p>
+    </div>
+    <div class="coin-stage" aria-hidden="true"><div class="coin">tUSD8</div></div>
+  </section>
+
   <div id="deployNotice" class="notice hidden">
     <strong>Contract not deployed yet.</strong>
     <span id="deployNoticeText">The InvoicePayments contract has not been deployed to Aevum Testnet yet. This page is in read-only preview mode until the contract address is set in <code>config.js</code>.</span>
@@ -33,14 +45,14 @@
   <div id="statusBar" class="statusbar" role="status" aria-live="polite"></div>
 
   <section class="stats" aria-label="Overview">
-    <div class="stat"><span class="stat-num" id="statTotal">–</span><span class="stat-label">invoices</span></div>
-    <div class="stat"><span class="stat-num" id="statPending">–</span><span class="stat-label">pending</span></div>
-    <div class="stat"><span class="stat-num" id="statPaid">–</span><span class="stat-label">paid</span></div>
-    <div class="stat"><span class="stat-num" id="statVolume">–</span><span class="stat-label">tUSD8 settled</span></div>
+    <div class="stat tilt"><span class="stat-num" id="statTotal">–</span><span class="stat-label">invoices</span></div>
+    <div class="stat tilt"><span class="stat-num" id="statPending">–</span><span class="stat-label">pending</span></div>
+    <div class="stat tilt"><span class="stat-num" id="statPaid">–</span><span class="stat-label">paid</span></div>
+    <div class="stat tilt"><span class="stat-num" id="statVolume">–</span><span class="stat-label">tUSD8 settled</span></div>
   </section>
 
   <div class="layout">
-    <section class="card form-card" aria-label="Create an invoice">
+    <section class="card form-card tilt" aria-label="Create an invoice">
       <h2>Create an invoice</h2>
       <p class="hint">Bill someone in tUSD8. The payer approves the contract, then pays — the tokens move straight to your wallet.</p>
       <form id="createForm">
@@ -69,7 +81,7 @@
       </div>
     </section>
 
-    <section class="card list-card" aria-label="Invoices">
+    <section class="card list-card tilt" aria-label="Invoices">
       <div class="list-head">
         <h2>Invoices</h2>
         <button id="refreshBtn" class="btn ghost">↻ Refresh</button>
@@ -96,5 +108,25 @@
 
 <script src="config.js"></script>
 <script src="app.js"></script>
+<script>
+// Subtle 3D mouse tilt for .tilt elements (fine pointers only; no dependency on app.js).
+(function () {
+  if (!window.matchMedia || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('.tilt').forEach(function (el) {
+    el.addEventListener('mousemove', function (e) {
+      var r = el.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - 0.5;
+      var py = (e.clientY - r.top) / r.height - 0.5;
+      el.style.setProperty('--ry', (px * 5).toFixed(2) + 'deg');
+      el.style.setProperty('--rx', (-py * 5).toFixed(2) + 'deg');
+    });
+    el.addEventListener('mouseleave', function () {
+      el.style.setProperty('--rx', '0deg');
+      el.style.setProperty('--ry', '0deg');
+    });
+  });
+})();
+</script>
 </body>
 </html>
